@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+<h1 align="center">Посты</h1>
+{% for item in pictures%}
+<div class="block_1">
+    <div class="col-md6 border rounded">
+        <h2>{{item.title}}</h2>
+        <img src={{ item.picture_path }} width="470" height="380" alt="">
+        <br>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-secondary btn-lg">
+                <input type="radio" onclick="count0()"> 0
+            </label><ц></ц>
+            <label class="btn btn-outline-success btn-lg">
+                <input type="radio" id="option5"> 5
+            </label>
+            <label class="btn btn-outline-success btn-lg">
+                <input type="radio" onclick="countRabbits()"> Нажми меня!
+            </label>
+            <script>
+
+            let picture = {
+                title: '{{ item.title }}',
+                picture_path: '{{ item.picture_path }}',
+                average_mark: Number({{ item.average_mark }}) + value,
+                users_set_mark: String({{ item.users_set_mark}}) + String({{ current_user.id }}) + ';',
+                user_id: {{ current_user.id }}
+            };
+
+
+            function countRabbits() {
+                alert('Спасибо');
+            };
+
+            function count0() {
+                let value;
+                value = 0;
+
+                let url;
+                url = 'http://127.0.0.1:5000/api/picture';
+
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify(picture)
+                });
+
+                alert ( JSON.stringify(picture) )
+
+            };
+
+            </script>
+        </div>
+
+
+    </div>
+
+</div>
+<br>
+<br>
+{% endfor %}
+{% else %}
+<h1>&nbsp;</h1>
+<h1>&nbsp;</h1>
+<h2 style="text-align: left; padding-left: 550px;">Добро пожаловать в SNAC.</h2>
+<h2 style="text-align: left; padding-left: 300px;">SNAC-это социальная сеть для художников всех уровней
+    мастерстава.</h2>
+{% endif %}
+{% endblock %}
